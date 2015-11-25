@@ -3,8 +3,20 @@ from .models import User, Account, AccountingDocumentHeader, AccountingDocumentI
 # Register your models here.
 
 
+class AccountingDocumentItemInline(admin.TabularInline):
+    model = AccountingDocumentItem
+    extra = 0
+
+
 class AccountingDocumentAdmin(admin.ModelAdmin):
-    fields = ['creation_date', 'creator', 'comment']
+    fieldsets = [
+        ('Header Information', {'fields': ['creation_date', 'creator']}),
+        ('Comment', {'fields': ['comment']})
+    ]
+    inlines = [AccountingDocumentItemInline]
+    list_display = ('creation_date', 'creator', 'comment')
+    list_filter = ['creation_date']
+    search_fields = ['comment']
 
 
 admin.site.register(AccountingDocumentHeader, AccountingDocumentAdmin)

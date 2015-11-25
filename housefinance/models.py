@@ -27,15 +27,19 @@ class AccountingDocumentHeader(models.Model):
     comment = models.TextField(blank=True)
 
     def __str__(self):
-        return self.creation_date.__str__() + ' ' + self.id.__str__()
+        return self.creation_date.date().__str__() + ' ' + self.id.__str__() + ' ' + self.comment
 
 
 class AccountingDocumentItem(models.Model):
-    dc_indicator = models.CharField(max_length=1)
+    DEBIT_CREDIT_INDICATOR_OPTIONS = (
+        ('D', '借方'),
+        ('C', '贷方'),
+    )
+    dc_indicator = models.CharField(max_length=1, choices=DEBIT_CREDIT_INDICATOR_OPTIONS)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     document_header = models.ForeignKey(AccountingDocumentHeader)
     account = models.ForeignKey(Account)
-    comment = models.TextField(blank=True)
+    comment = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.document_header.__str__() + ' ' + self.id.__str__()

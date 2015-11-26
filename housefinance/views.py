@@ -7,6 +7,7 @@ from  django.http import HttpResponse
 def index(request):
     return HttpResponse("Hello you are in the index")
 
+
 def detail(request, accountingDocumentID):
     response = "You're looking at the detail of accounting document %s."
     return HttpResponse(response % accountingDocumentID)

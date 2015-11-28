@@ -13,8 +13,15 @@ class User(models.Model):
 
 
 class Account(models.Model):
+    ACCOUNT_TYPE_OPTIONS = (
+        ('ZC', '资产'),
+        ('CB', '成本'),
+        ('FY', '费用'),
+        ('FZ', '负债'),
+        ('SR', '收入'),
+    )
     account_name = models.CharField(max_length=50)
-    account_type = models.CharField(max_length=10, blank=True)
+    account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPE_OPTIONS)
     account_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):

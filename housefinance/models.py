@@ -39,8 +39,8 @@ class AccountingDocumentHeader(models.Model):
 
 class AccountingDocumentItem(models.Model):
     DEBIT_CREDIT_INDICATOR_OPTIONS = (
-        ('D', '借方'),
-        ('C', '贷方'),
+        ('J', '借方'),
+        ('D', '贷方'),
     )
     dc_indicator = models.CharField(max_length=1, choices=DEBIT_CREDIT_INDICATOR_OPTIONS)
     amount = models.DecimalField(max_digits=10, decimal_places=2)

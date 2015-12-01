@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if account_doc_list %}
+    <ul>
+    {% for account_doc in account_doc_list %}
+        <li><a href="{% url 'detail' account_doc.id %}">{{ account_doc.creation_date }}&nbsp;-&nbsp;{{ account_doc.comment }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>没有记账凭证存在</p>
+{% endif %}
+</body>
+</html>

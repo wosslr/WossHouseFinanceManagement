@@ -17,6 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^ffm/', include('housefinance.urls')),
+    url(r'^ffm/', include('housefinance.urls', namespace='ffm')),
     url(r'^admin/', include(admin.site.urls)),
 ]

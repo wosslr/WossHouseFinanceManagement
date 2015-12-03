@@ -7,7 +7,7 @@
       <imported>true</imported>
       <remarks>$PROJECT_DIR$/HouseFinanceManagement/settings.py</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:E:\MyProjects\PycharmProjects\HouseFinanceManagement\db.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\I300934\PycharmProjects\WossHouseFinanceManagement\db.sqlite3</jdbc-url>
       <explain-plan-config>
         <provider>com.intellij.database.plan.ExplainPlanProvider.NullExplainPlanProvider</provider>
       </explain-plan-config>

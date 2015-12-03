@@ -9,7 +9,7 @@ from .models import AccountingDocumentHeader
 
 
 class IndexView(generic.ListView):
-    template_name = 'housefinance/index1.html'
+    template_name = 'housefinance/index.html'
     context_object_name = 'account_doc_list'
 
     def get_queryset(self):

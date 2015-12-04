@@ -1,0 +1,48 @@
+{% extends "housefinance/base.html" %}
+{% load staticfiles %}
+{% block title %}支出统计{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <div id="chartContainer"></div>
+            <div><button id="addDataPoint">Add DataPoint</button></div>
+        </div>
+    </div>
+{% endblock %}
+{% block myjs %}
+    <script src="{% static 'housefinance/js/canvasjs/jquery.canvasjs.min.js' %}"></script>
+    <script>
+        window.onload = function () {
+
+            $.getJSON('http://localhost:8000/ffm/chart_spend/', function (csv) {
+                console.log(csv);
+            })
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Adding New DataPoints Dynamically"
+                },
+                data: [
+                    {
+                        type: "spline",
+                        dataPoints: [
+                            {y: 10},
+                            {y: 4},
+                            {y: 18},
+                            {y: 8}
+                        ]
+                    }
+                ]
+            });
+            chart.render();
+
+            $("#addDataPoint").click(function () {
+
+                var length = chart.options.data[0].dataPoints.length;
+                chart.options.data[0].dataPoints.push({y: 25 - Math.random() * 10});
+                chart.render();
+
+            });
+        }
+    </script>
+{% endblock %}

@@ -8,6 +8,8 @@
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/ffm.css' %}">
+    {% block mycss %}
+    {% endblock %}
 </head>
 <body>
 <div class="navbar navbar-static-top" role="navigation">
@@ -52,6 +54,16 @@
                         <li><a href="#"><i class="glyphicon glyphicon-bell"></i>&nbsp;记账凭证结算 </a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="#navReportCenter" class="supermenu collapsed" data-toggle="collapse">
+                        <i class="glyphicon glyphicon-signal"></i>
+                        报表中心
+                        <span class="pull-right glyphicon glyphicon-collapse-toggle"></span>
+                    </a>
+                    <ul id="navReportCenter" class="nav submenu collapse">
+                        <li><a href="chart_spend"><i class="glyphicon glyphicon-stats"></i>&nbsp;支出统计 </a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="col-md-10">
@@ -61,5 +73,7 @@
 </div>
 <script src="{% static 'housefinance/js/bootstrap/jquery.min.js' %}"></script>
 <script src="{% static 'housefinance/js/bootstrap/bootstrap.min.js' %}"></script>
+{% block myjs %}
+{% endblock %}
 </body>
 </html>

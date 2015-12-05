@@ -29,5 +29,5 @@ def chart_spend(request):
     context = {'acc_doc_items': acc_doc_items}
     for acc_doc_item in acc_doc_items:
         print(acc_doc_item.document_header.comment)
-        print(acc_doc_item.document_header.creation_date.month)
+        print(acc_doc_item.document_header.creation_date.day)
     return render(request=request, template_name='housefinance/chart_spend.html', context=context)

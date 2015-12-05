@@ -24,13 +24,10 @@ class DetailView(generic.DetailView):
     template_name = 'housefinance/detail.html'
 
 
-class ChartSpendView(generic.TemplateView):
-    template_name = 'housefinance/chart_spend.html'
-
-
-def chart_spend_data(request):
-    acc_doc_items = AccountingDocumentItem.objects.all()
-    result = []
+def chart_spend(request):
+    acc_doc_items = AccountingDocumentItem.objects.filter(account__account_type='FY').order_by('document_header__creation_date')
+    context = {'acc_doc_items': acc_doc_items}
     for acc_doc_item in acc_doc_items:
-        result.append(json.dumps({'y': acc_doc_item.amount.__float__()}))
-    return HttpResponse(result)
+        print(acc_doc_item.document_header.comment)
+        print(acc_doc_item.document_header.creation_date.month)
+    return render(request=request, template_name='housefinance/chart_spend.html', context=context)

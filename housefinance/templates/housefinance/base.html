@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
@@ -24,7 +24,7 @@
         <div class="col-md-2">
             <ul class="main-nav nav nav-tabs nav-app">
                 <li>
-                    <a href="#">
+                    <a href="{% url 'ffm:index' %}">
                         <i class="glyphicon glyphicon-th-large"></i>
                         首页
                     </a>
@@ -61,7 +61,7 @@
                         <span class="pull-right glyphicon glyphicon-collapse-toggle"></span>
                     </a>
                     <ul id="navReportCenter" class="nav submenu collapse">
-                        <li><a href="chart_spend"><i class="glyphicon glyphicon-stats"></i>&nbsp;支出统计 </a></li>
+                        <li><a href="{% url 'ffm:chart_spend' %}"><i class="glyphicon glyphicon-stats"></i>&nbsp;支出统计 </a></li>
                     </ul>
                 </li>
             </ul>

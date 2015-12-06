@@ -28,9 +28,9 @@
                             {% for acc_doc_item in acc_doc_items %}
                                 {
                                     x: new Date(
-                                            {{ acc_doc_item.document_header.creation_date.year }},
-                                            {{ acc_doc_item.document_header.creation_date.month }},
-                                            {{ acc_doc_item.document_header.creation_date.day }}
+                                            '{{ acc_doc_item.document_header.creation_date.year }}',
+                                            '{{ acc_doc_item.document_header.creation_date.month }}',
+                                            '{{ acc_doc_item.document_header.creation_date.day }}'
                                     ),
                                     toolTipContent: "{{ acc_doc_item.document_header.comment }} : <strong>{y}</strong>",
                                     y: {{acc_doc_item.amount}}

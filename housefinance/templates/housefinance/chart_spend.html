@@ -22,9 +22,8 @@
                 },
                 data: [
                     {
-                        type: "spline",
+                        type: "line",
                         showInLegend: true,
-{#                        dataPoints: {{ chart_data|safe }}#}
                         dataPoints:[
                             {% for acc_doc_item in acc_doc_items %}
                                 {
@@ -34,7 +33,6 @@
                                             {{ acc_doc_item.document_header.creation_date.day }}
                                     ),
                                     toolTipContent: "{{ acc_doc_item.document_header.comment }} : <strong>{y}</strong>",
-{#                                    label: '{{ acc_doc_item.document_header.comment }}',#}
                                     y: {{acc_doc_item.amount}}
                                 },
                             {% endfor %}

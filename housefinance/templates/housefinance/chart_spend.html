@@ -20,20 +20,28 @@
                 title: {
                     text: "消费支出统计"
                 },
+                axisX: {
+                    tickLength: 0
+                },
                 data: [
                     {
-                        type: "line",
+                        type: "column",
                         showInLegend: true,
                         dataPoints:[
                             {% for acc_doc_item in acc_doc_items %}
                                 {
-                                    x: new Date(
-                                            '{{ acc_doc_item.document_header.creation_date.year }}',
-                                            '{{ acc_doc_item.document_header.creation_date.month }}',
-                                            '{{ acc_doc_item.document_header.creation_date.day }}'
-                                    ),
+{#                                    x: new Date(#}
+{#                                            '{{ acc_doc_item.document_header.creation_date.year }}',#}
+{#                                            '{{ acc_doc_item.document_header.creation_date.month }}',#}
+{#                                            '{{ acc_doc_item.document_header.creation_date.day }}',#}
+{#                                            '{{ acc_doc_item.document_header.creation_date.hour }}',#}
+{#                                            '{{ acc_doc_item.document_header.creation_date.minute }}',#}
+{#                                            '{{ acc_doc_item.document_header.creation_date.second }}'#}
+{#                                    ),#}
+                                    x: {{ forloop.counter }},
                                     toolTipContent: "{{ acc_doc_item.document_header.comment }} : <strong>{y}</strong>",
-                                    y: {{acc_doc_item.amount}}
+                                    y: {{acc_doc_item.amount}},
+                                    label: "{{ acc_doc_item.document_header.comment }}"
                                 },
                             {% endfor %}
 

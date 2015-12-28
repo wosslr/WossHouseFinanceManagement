@@ -27,7 +27,22 @@ class DetailView(generic.DetailView):
 def chart_spend(request):
     acc_doc_items = AccountingDocumentItem.objects.filter(account__account_type='FY').order_by('document_header__creation_date')
     context = {'acc_doc_items': acc_doc_items}
-    for acc_doc_item in acc_doc_items:
-        print(acc_doc_item.document_header.comment)
-        print(acc_doc_item.document_header.creation_date.day)
     return render(request=request, template_name='housefinance/chart_spend.html', context=context)
+
+def fibonacci(request, m):
+    tm = int(m)
+    context = {'fibonacci': fib(tm)}
+    return render(request=request, template_name='housefinance/fibonacci.html', context=context)
+
+
+def fib(m):
+    n, a, b = 0, 0, 1
+    y = float(0)
+    result = []
+    while n < m:
+        # yield a
+        a, b = b, a + b
+        y = a / b
+        result.append(y)
+        n += 1
+    return result

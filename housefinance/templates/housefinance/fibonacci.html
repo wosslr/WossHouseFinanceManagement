@@ -1,6 +1,6 @@
 {% extends "housefinance/base.html" %}
 {% load staticfiles %}
-{% block title %}支出统计{% endblock %}
+{% block title %}Fibonacci{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-8">
@@ -18,31 +18,22 @@
 
             var chart = new CanvasJS.Chart("chartContainer", {
                 title: {
-                    text: "消费支出统计"
+                    text: "Fibonacci"
                 },
                 axisX: {
-                    tickLength: 0,
-                    labelAutoFit: true
+                    tickLength: 0
                 },
                 data: [
                     {
-                        type: "column",
+                        type: "spline",
                         showInLegend: true,
                         dataPoints:[
-                            {% for acc_doc_item in acc_doc_items %}
+                            {% for fib in fibonacci %}
                                 {
-{#                                    x: new Date(#}
-{#                                            '{{ acc_doc_item.document_header.creation_date.year }}',#}
-{#                                            '{{ acc_doc_item.document_header.creation_date.month }}',#}
-{#                                            '{{ acc_doc_item.document_header.creation_date.day }}',#}
-{#                                            '{{ acc_doc_item.document_header.creation_date.hour }}',#}
-{#                                            '{{ acc_doc_item.document_header.creation_date.minute }}',#}
-{#                                            '{{ acc_doc_item.document_header.creation_date.second }}'#}
-{#                                    ),#}
                                     x: {{ forloop.counter }},
-                                    toolTipContent: "{{ acc_doc_item.document_header.comment }} : <strong>{y}</strong>",
-                                    y: {{acc_doc_item.amount}},
-                                    label: "{{ acc_doc_item.document_header.comment }}"
+                                    toolTipContent: "<strong>{y}</strong>",
+                                    y: {{fib}}
+{#                                    label: "{{ acc_doc_item.document_header.comment }}"#}
                                 },
                             {% endfor %}
 

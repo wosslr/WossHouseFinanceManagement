@@ -21,6 +21,7 @@ def login(request):
             # 获取的表单数据与数据库进行比较
             print(username, password)
             user = User.objects.filter(username__exact=username, password__exact=password)
+            print(User.objects.all())
             print(user)
             if user:
                 return render_to_response('housefinance/index.html', {'username': username})

@@ -36,10 +36,9 @@ class AccountingDocumentHeader(models.Model):
     def __str__(self):
         return self.creation_date.date().__str__() + ' ' + self.id.__str__() + ' ' + self.comment
 
-    # def save(self, force_insert=False, force_update=False, using=None,
-    #          update_fields=None):
-    #     for acc_doc_item in self.accountingdocumentitem_set.all():
-    #         print(acc_doc_item)
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        print('------------>save Header')
 
 
 class AccountingDocumentItem(models.Model):
@@ -55,3 +54,7 @@ class AccountingDocumentItem(models.Model):
 
     def __str__(self):
         return self.document_header.__str__() + ' ' + self.id.__str__()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        print('------------>save Item')

@@ -35,14 +35,6 @@ class AccountingDocumentAdmin(admin.ModelAdmin):
     #     if amount_d == amount_j:
     #         obj.save()
 
-    def save_form(self, request, form, change):
-        print('------------>save form')
-        test = super(AccountingDocumentAdmin, self).save_form(request, form, change)
-        for it in test.accountingdocumentitem_set.all():
-            print(it)
-        print(test)
-        return test
-
     def save_formset(self, request, form, formset, change):
         print('------------>save formset')
         instances = formset.save(commit=False)
@@ -50,7 +42,11 @@ class AccountingDocumentAdmin(admin.ModelAdmin):
         if acc_doc_valdt.is_document_consistent(changed_objects=formset.changed_objects,
                                              deleted_objects=formset.deleted_objects, new_objects=formset.new_objects):
             messages.error(request, 'The document is inconsistent')
+            self.message_user(request, 'The document is inconsistent', messages.ERROR)
 
+    def save_form(self, request, form, change):
+        print('------------>save form')
+        return form.save(commit=False)
 
 admin.site.register(AccountingDocumentHeader, AccountingDocumentAdmin)
 admin.site.register(User)

@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django import forms
 from django.http import HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as django_login
 from django.template.context_processors import csrf
 
 
@@ -20,11 +20,13 @@ def login(request):
             password = uf.cleaned_data['password']
             # 获取的表单数据与数据库进行比较
             print(username, password)
-            user = User.objects.filter(username__exact=username, password__exact=password)
-            print(User.objects.all())
-            print(user)
-            if user:
-                return render_to_response('housefinance/index.html', {'username': username})
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    django_login(request, user)
+                    return render_to_response('/ffm/', {'username': username})
+                else:
+                    return HttpResponseRedirect('/login/')
             else:
                 return HttpResponseRedirect('/login/')
     else:

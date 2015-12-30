@@ -1,22 +1,65 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>登录</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>用户登录</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'housefinance/css/bootstrap/bootstrap.min.css' %}" media="all">
+    <link rel="stylesheet" href="{% static 'login/css/ace.min.css' %}" media="all">
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}" media="all"/>
 </head>
- <style type="text/css">
-    body{color:#efd;background:#453;padding:0 5em;margin:0}
-    h1{padding:2em 1em;background:#675}
-    h2{color:#bf8;border-top:1px dotted #fff;margin-top:2em}
-    p{margin:1em 0}
-  </style>
-<body>
-<h1>登录页面：</h1>
-<form method = 'post' enctype="multipart/form-data">
-    {% csrf_token %}
-    {{uf.as_p}}
-    <input type="submit" value = "ok" />
-</form>
+<body class="login-layout">
+<div class="main-container">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <div class="center">
+                        <i class="glyphicon glyphicon-piggy-bank orange icon-logo"></i>
+                        <h1>
+                            <span class="red">© WOSS</span>
+                            <span class="white">家庭财务管理</span>
+                        </h1>
+                    </div>
+                    <div class="space-8"></div>
+                    <div class="position-relative">
+                        <div id="login-box" class="login-box visible">
+                            <div class="widget-body border-radius4">
+                                <div class="widget-main">
+                                    <form method = 'post' enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <fieldset>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <input id="id_username" name="username" type="text" class="form-control" placeholder="用户名">
+                                                    <i class="glyphicon glyphicon-user"></i>
+                                                </span>
+                                            </label>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    <input id="id_password" name="password" type="password" class="form-control" placeholder="密码">
+                                                    <i class="glyphicon glyphicon-lock"></i>
+                                                </span>
+                                            </label>
+                                            <div class="space-2"></div>
+                                            <div class="clearfix">
+                                                <button type="submit" class="btn btn-sm btn-primary border-radius4 pull-right">
+                                                    <i class="glyphicon glyphicon-send"></i>
+                                                    登录
+                                                </button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

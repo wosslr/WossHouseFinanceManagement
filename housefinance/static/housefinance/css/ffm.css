@@ -1,6 +1,4 @@
-body{
-    font-family: 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial, Helvetica, STHeiti;
-}
+body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;}
 
 .navbar-static-top {
     background: #212121;
@@ -8,11 +6,15 @@ body{
 }
 
 .navbar-brand {
-    background: url('http://static-res.ruyo.net/ruyo_net_w_32.png') no-repeat 10px 8px;
     display: inline-block;
     vertical-align: middle;
     padding-left: 50px;
     color: #fff;
+}
+
+.navbar-brand-padding{
+    padding-left: 25px;
+    padding-right: 10px;
 }
 
 .navbar-brand:hover{

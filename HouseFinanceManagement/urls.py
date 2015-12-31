@@ -18,6 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^ffm/', include('housefinance.urls', namespace='ffm')),
-    url(r'^login/', include('login.urls', namespace='login')),
+    url(r'^account/', include('account.urls', namespace='account')),
     url(r'^admin/', include(admin.site.urls)),
 ]

@@ -25,12 +25,12 @@ def login(request):
                     django_login(request, user)
                     return HttpResponseRedirect(redirect_to)
                 else:
-                    return HttpResponseRedirect('/login/?next='+redirect_to)
+                    return HttpResponseRedirect('/account/login?next='+redirect_to)
             else:
-                return HttpResponseRedirect('/login/?next='+redirect_to)
+                return HttpResponseRedirect('/account/login?next='+redirect_to)
     else:
         uf = UserForm()
     context = {'uf': uf}
     context.update(csrf(request))
     context['next'] = redirect_to
-    return render_to_response(template_name='login/login.html', context=context)
+    return render_to_response(template_name='account/login.html', context=context)

@@ -7,6 +7,7 @@
     <title>{% block title %}WOSS 家庭财务管理{% endblock %}</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'account/css/ace.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/ffm.css' %}">
     {% block mycss %}
     {% endblock %}
@@ -15,7 +16,8 @@
 <div class="navbar navbar-static-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">WOSS 家庭财务管理系统</a>
+            <i class="glyphicon glyphicon-piggy-bank orange navbar-brand navbar-brand-padding"></i>
+            <a class="navbar-brand navbar-brand-padding" href="#"><span class="red">WOSS</span> 家庭财务管理</a>
         </div>
     </div>
 </div>

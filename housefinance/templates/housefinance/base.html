@@ -7,6 +7,7 @@
     <title>{% block title %}WOSS 家庭财务管理{% endblock %}</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'account/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'account/css/ace.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/ffm.css' %}">
     {% block mycss %}
@@ -15,9 +16,17 @@
 <body>
 <div class="navbar navbar-static-top" role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
+        <div class="navbar-header pull-left">
             <i class="glyphicon glyphicon-piggy-bank orange navbar-brand navbar-brand-padding"></i>
             <a class="navbar-brand navbar-brand-padding" href="#"><span class="red">WOSS</span> 家庭财务管理</a>
+        </div>
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav">
+                <li id="user_menu">
+                    <a><i class="glyphicon glyphicon-user"></i> {{ user.first_name }}</a>
+                    <div id="user_menu_dropdown" class="test-dropdown">this is a tester</div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
@@ -76,6 +85,7 @@
 </div>
 <script src="{% static 'housefinance/js/bootstrap/jquery.min.js' %}"></script>
 <script src="{% static 'housefinance/js/bootstrap/bootstrap.min.js' %}"></script>
+<script src="{% static 'housefinance/js/ffm.js' %}"></script>
 {% block myjs %}
 {% endblock %}
 </body>

@@ -45,5 +45,5 @@ class AccountingDocumentValidation:
             else:
                 amount_d -= acc_item_del.amount
 
-        return amount_d == amount_j
+        return amount_d == amount_j and amount_j != 0
 

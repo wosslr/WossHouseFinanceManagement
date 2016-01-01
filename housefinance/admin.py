@@ -36,16 +36,20 @@ class AccountingDocumentAdmin(admin.ModelAdmin):
     #         obj.save()
 
     def save_formset(self, request, form, formset, change):
-        print('------------>save formset')
-        instances = formset.save(commit=False)
+        acc_doc_header = form.save(commit=False)
+        formset.save(commit=False)
         acc_doc_valdt = AccountingDocumentValidation()
-        if acc_doc_valdt.is_document_consistent(changed_objects=formset.changed_objects,
+        if not acc_doc_valdt.is_document_consistent(changed_objects=formset.changed_objects,
                                              deleted_objects=formset.deleted_objects, new_objects=formset.new_objects):
-            messages.error(request, 'The document is inconsistent')
-            self.message_user(request, 'The document is inconsistent', messages.ERROR)
+            if len(acc_doc_header.accountingdocumentitem_set.all()) == 0:
+                if request.POST.get('_continue') == None:
+                    AccountingDocumentHeader.objects.get(pk=acc_doc_header.id).delete()
+                    messages.error(request, '记账凭证不能被保存')
+            messages.error(request, '记账凭证金额不平')
+        else:
+            return super(AccountingDocumentAdmin, self).save_formset(request, form, formset, change)
 
     def save_form(self, request, form, change):
-        print('------------>save form')
         return form.save(commit=False)
 
 admin.site.register(AccountingDocumentHeader, AccountingDocumentAdmin)

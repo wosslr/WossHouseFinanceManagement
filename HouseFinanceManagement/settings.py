@@ -31,7 +31,22 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
+# ---------------------------------------------------------------------------------------------------+
+# -----------------------------   this is for bootstrap3 configuration  -----------------------------+
+from django.contrib import messages
+
+DAB_FIELD_RENDERER = 'django_admin_bootstrapped.renderers.BootstrapFieldRenderer'
+
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'alert-success success',
+    messages.WARNING: 'alert-warning warning',
+    messages.ERROR: 'alert-danger error'
+}
+
+# ---------------------------------------------------------------------------------------------------+
+
 INSTALLED_APPS = (
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

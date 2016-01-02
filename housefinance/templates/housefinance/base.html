@@ -21,10 +21,13 @@
             <a class="navbar-brand navbar-brand-padding" href="#"><span class="red">WOSS</span> 家庭财务管理</a>
         </div>
         <div class="navbar-header pull-right" role="navigation">
-            <ul class="nav">
-                <li id="user_menu">
-                    <a><i class="glyphicon glyphicon-user"></i> {{ user.first_name }}</a>
-                    <div id="user_menu_dropdown" class="test-dropdown">this is a tester</div>
+            <ul class="nav nav-pills">
+                <li id="user_menu" class="dropdown-hover dropdown-100">
+                    <a><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;{{ user.last_name }},&nbsp;{{ user.first_name }}</a>
+                    {#                    <div id="user_menu_dropdown" class="test-dropdown">this is a tester</div>#}
+                    <ul class="dropdown-menu dropdown-100">
+                        <li><a href="{% url 'account:logout' %}"><i class="glyphicon glyphicon-off"></i> 注销</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -72,8 +75,10 @@
                         <span class="pull-right glyphicon glyphicon-collapse-toggle"></span>
                     </a>
                     <ul id="navReportCenter" class="nav submenu collapse">
-                        <li><a href="{% url 'ffm:chart_spend' %}"><i class="glyphicon glyphicon-stats"></i>&nbsp;支出统计 </a></li>
-                        <li><a href="{% url 'ffm:fibonacci' 100 %}"><i class="glyphicon glyphicon-stats"></i>&nbsp;Fibonacci </a></li>
+                        <li><a href="{% url 'ffm:chart_spend' %}"><i class="glyphicon glyphicon-stats"></i>&nbsp;支出统计
+                        </a></li>
+                        <li><a href="{% url 'ffm:fibonacci' 100 %}"><i class="glyphicon glyphicon-stats"></i>&nbsp;Fibonacci
+                        </a></li>
                     </ul>
                 </li>
             </ul>

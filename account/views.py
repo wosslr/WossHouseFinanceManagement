@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response
 from django import forms
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login as django_login
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.template.context_processors import csrf
 
 
@@ -40,3 +40,8 @@ def login(request):
     context.update(csrf(request))
     context['next'] = redirect_to
     return render_to_response(template_name='account/login.html', context=context)
+
+
+def logout(request):
+    django_logout(request)
+    return HttpResponseRedirect('/account/login')

@@ -37,6 +37,7 @@ class AccountingDocumentHeader(models.Model):
         return self.creation_date.date().__str__() + ' ' + self.id.__str__() + ' ' + self.comment
 
 
+
 class AccountingDocumentItem(models.Model):
     DEBIT_CREDIT_INDICATOR_OPTIONS = (
         ('J', '借方'),
@@ -50,3 +51,4 @@ class AccountingDocumentItem(models.Model):
 
     def __str__(self):
         return self.document_header.__str__() + ' ' + self.id.__str__()
+

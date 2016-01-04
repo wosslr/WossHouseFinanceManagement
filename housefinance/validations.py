@@ -1,37 +1,24 @@
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from decimal import Decimal
+from django.contrib import messages
 
 
 class AccountingDocumentValidation:
 
-    def is_document_consistent(self, **kwargs):
-        accounting_document = AccountingDocumentHeader()
-        changed_objects = []
-        deleted_objects = []
-        new_objects = []
+    def is_document_consistent(self, request, **kwargs):
         amount_j = Decimal(0)
         amount_d = Decimal(0)
-        for key, value in kwargs.items():
-            if key == 'accounting_document':
-                accounting_document = value
-            elif key == 'changed_objects':
-                changed_objects = value
-            elif key == 'deleted_objects':
-                deleted_objects = value
-            elif key == 'new_objects':
-                new_objects = value
 
-        # accounting_document_items = accounting_document.accountingdocumentitem_set.all()
-        # for index, acc_item in enumerate(accounting_document_items):
-        #     for acc_item_del in deleted_objects:
-        #         if acc_item.id == acc_item_del.id:
-        #             del accounting_document_items[index]
+        changed_objects = kwargs['changed_objects']
+        deleted_objects = kwargs['deleted_objects']
+        new_objects = kwargs['new_objects']
+        acc_doc_header = kwargs['acc_doc_header']
 
         for acc_item_chg in changed_objects:
-            if acc_item_chg.dc_indicator == 'J':
-                amount_j += acc_item_chg.amount
+            if acc_item_chg[0].dc_indicator == 'J':
+                amount_j += acc_item_chg[0].amount
             else:
-                amount_d += acc_item_chg.amount
+                amount_d += acc_item_chg[0].amount
 
         for acc_item_new in new_objects:
             if acc_item_new.dc_indicator == 'J':
@@ -45,5 +32,15 @@ class AccountingDocumentValidation:
             else:
                 amount_d -= acc_item_del.amount
 
-        return amount_d == amount_j and amount_j != 0
+        if amount_j != amount_d:
+            messages.error(request, '记账凭证金额不平')
+            return False
+        else:
+            if amount_d == 0:
+                if len(acc_doc_header.accountingdocumentitem_set.all()) == 0:
+                    messages.error(request, '记账凭证不能没有发生金额')
+                else:
+                    return True
+            else:
+                return True
 

@@ -4,6 +4,9 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django import forms
+from datetimewidget.widgets import DateTimeWidget
+from .constants import dateTimeOptions
 
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from .funs import fib
@@ -48,6 +51,16 @@ class AccountingDocumentDetailView(generic.DetailView):
 class AccountingDocumentCreateView(generic.CreateView):
     model = AccountingDocumentHeader
     fields = ['creation_date', 'creator', 'comment']
+    template_name = 'housefinance/accounting_document/acc_doc_create.html'
+
+    def get_form(self, form_class=None):
+        form = super(AccountingDocumentCreateView, self).get_form(form_class)
+        form.fields['creation_date'].widget = DateTimeWidget(options=dateTimeOptions)
+        return form
+
+    @method_decorator(login_required(login_url='/account/login'))
+    def dispatch(self, request, *args, **kwargs):
+        return super(AccountingDocumentCreateView, self).dispatch(request, *args, **kwargs)
 
 
 @login_required(login_url='/account/login')

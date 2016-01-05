@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'datetimewidget',
     'housefinance',
     'account',
 )
@@ -106,7 +107,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC+8'
+# TIME_ZONE = 'UTC+8'
 
 USE_I18N = True
 

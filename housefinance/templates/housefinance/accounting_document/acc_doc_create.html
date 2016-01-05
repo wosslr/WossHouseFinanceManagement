@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Accounting Document</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/bootstrap/bootstrap.min.css' %}">
+    <script src="{% static 'housefinance/js/bootstrap/jquery.min.js' %}"></script>
+    <script src="{% static 'housefinance/js/bootstrap/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+    {{ form.media }}
+</head>
+<body>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create">
+</form>
+</body>
+</html>

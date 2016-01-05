@@ -23,14 +23,31 @@ class IndexView(generic.ListView):
         return super(IndexView, self).dispatch(request, *args, **kwargs)
 
 
-class DetailView(generic.DetailView):
-    model = AccountingDocumentHeader
-    context_object_name = 'account_doc'
-    template_name = 'housefinance/detail.html'
+class AccountingDocumentIndexView(generic.ListView):
+    template_name = 'housefinance/accounting_document/index.html'
+    context_object_name = 'account_doc_list'
+
+    def get_queryset(self):
+        return AccountingDocumentHeader.objects.order_by('-creation_date')
 
     @method_decorator(login_required(login_url='/account/login'))
     def dispatch(self, request, *args, **kwargs):
-        return super(DetailView, self).dispatch(request, *args, **kwargs)
+        return super(AccountingDocumentIndexView, self).dispatch(request, *args, **kwargs)
+
+
+class AccountingDocumentDetailView(generic.DetailView):
+    model = AccountingDocumentHeader
+    context_object_name = 'account_doc'
+    template_name = 'housefinance/accounting_document/detail.html'
+
+    @method_decorator(login_required(login_url='/account/login'))
+    def dispatch(self, request, *args, **kwargs):
+        return super(AccountingDocumentDetailView, self).dispatch(request, *args, **kwargs)
+
+
+class AccountingDocumentCreateView(generic.CreateView):
+    model = AccountingDocumentHeader
+    fields = ['creation_date', 'creator', 'comment']
 
 
 @login_required(login_url='/account/login')

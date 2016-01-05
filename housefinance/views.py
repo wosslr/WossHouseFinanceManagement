@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django import forms
 from datetimewidget.widgets import DateTimeWidget
 from .constants import dateTimeOptions
 

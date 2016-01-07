@@ -65,7 +65,6 @@ class AccountingDocumentCreateView(generic.CreateView):
         return form
 
     def post(self, request, *args, **kwargs):
-        print('----> post in acc doc create')
         form = AccountingDocumentForm(request.POST)
         acc_doc_header = form.save(commit=False)
         formset = AccountingDocumentItemFormSet(request.POST, instance=acc_doc_header)
@@ -86,8 +85,6 @@ class AccountingDocumentCreateView(generic.CreateView):
             else:
                 acc_doc_header = form.save(commit=True)
                 acc_doc_items = formset.save(commit=True)
-                print(acc_doc_header)
-                print(acc_doc_items)
                 return HttpResponseRedirect('/ffm/accounting_document')
 
     @method_decorator(login_required(login_url='/account/login'))

@@ -2,8 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from datetimewidget.widgets import DateTimeWidget
-from .constants import dateTimeOptions
+from django.contrib import messages
 
 from .forms import AccountingDocumentForm, AccountingDocumentItemFormSet
 from .models import AccountingDocumentHeader, AccountingDocumentItem
@@ -56,20 +55,23 @@ class AccountingDocumentCreateView(generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountingDocumentCreateView, self).get_context_data(**kwargs)
-        context['formset'] = AccountingDocumentItemFormSet(queryset=AccountingDocumentItem.objects.none())
+        if self.request.POST:
+            context['formset'] = AccountingDocumentItemFormSet(self.request.POST)
+        else:
+            context['formset'] = AccountingDocumentItemFormSet()
+        # context['formset'] = AccountingDocumentItemFormSet(queryset=AccountingDocumentItem.objects.none())
         return context
 
-    def get_form(self, form_class=None):
-        form = super(AccountingDocumentCreateView, self).get_form(form_class)
-        form.fields['creation_date'].widget = DateTimeWidget(options=dateTimeOptions)
-        return form
-
     def post(self, request, *args, **kwargs):
+        self.object = None
         form = AccountingDocumentForm(request.POST)
+        formset = AccountingDocumentItemFormSet(request.POST)
+        if not form.is_valid():
+            return self.render_to_response(context=self.get_context_data(form=form, formset=formset))
         acc_doc_header = form.save(commit=False)
-        formset = AccountingDocumentItemFormSet(request.POST, instance=acc_doc_header)
-        context = {'form': form,
-                   'formset': formset}
+        # formset = AccountingDocumentItemFormSet(request.POST, instance=acc_doc_header)
+        # context = {'form': form,
+        #            'formset': formset}
         if formset.is_valid():
             acc_doc_items = formset.save(commit=False)
             if not AccountingDocumentValidation().is_document_consistent(
@@ -79,13 +81,20 @@ class AccountingDocumentCreateView(generic.CreateView):
                     new_objects=formset.new_objects,
                     acc_doc_header=acc_doc_header
             ):
-                # acc_doc_header.delete()
-                return render(request, template_name='housefinance/accounting_document/acc_doc_create.html',
-                              context=context)
+                return self.render_to_response(context=self.get_context_data(form=form, formset=formset))
+                # return render(request, template_name='housefinance/accounting_document/acc_doc_create.html',
+                #               context=context)
             else:
-                acc_doc_header = form.save(commit=True)
+                self.object = acc_doc_header = form.save(commit=True)
+                formset.instance = self.object
                 acc_doc_items = formset.save(commit=True)
+                messages.success(request=request,
+                                 message='凭证 '+acc_doc_header.__str__()+' 创建成功')
                 return HttpResponseRedirect('/ffm/accounting_document')
+        else:
+            return self.render_to_response(
+                self.get_context_data(form=form, formset=formset)
+            )
 
     @method_decorator(login_required(login_url='/account/login'))
     def dispatch(self, request, *args, **kwargs):

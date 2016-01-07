@@ -2,6 +2,13 @@
 {% block title %}首页{% endblock %}
 {% block content %}
     <div class="row">
+    <div class="col-md-11">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message.message }}</div>
+        {% endfor %}
+    </div>
+    </div>
+    <div class="row">
         <div class="col-md-11">
             <div class="panel panel-default">
                 <div class="panel-heading">

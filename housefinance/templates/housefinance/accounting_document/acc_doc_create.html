@@ -1,23 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Accounting Document</title>
+{% extends 'housefinance/base.html' %}
+{% block title %}新建记账凭证{% endblock %}
+{% block mycss %}
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/bootstrap/bootstrap.min.css' %}">
     <script src="{% static 'housefinance/js/bootstrap/jquery.min.js' %}"></script>
     <script src="{% static 'housefinance/js/bootstrap/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
     {{ form.media }}
-</head>
-<body>
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    {% for form in formset.forms %}
-        {{ form.as_p }}
-    {% endfor %}
-    {{ formset.management_form }}
-    <input type="submit" value="Create">
-</form>
-</body>
-</html>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <form method="post">{% csrf_token %}
+                {{ form.as_p }}
+                {% for form in formset.forms %}
+                    {{ form.as_p }}
+                {% endfor %}
+                {{ formset.management_form }}
+                <input type="submit" value="Create">
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Create Accounting Document</title>#}
+{#    {% load staticfiles %}#}
+{#    <link rel="stylesheet" type="text/css" href="{% static 'housefinance/css/bootstrap/bootstrap.min.css' %}">#}
+{#    <script src="{% static 'housefinance/js/bootstrap/jquery.min.js' %}"></script>#}
+{#    <script src="{% static 'housefinance/js/bootstrap/bootstrap.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>#}
+{#    {{ form.media }}#}
+{#</head>#}
+{#<body>#}
+{#<form method="post">{% csrf_token %}#}
+{#    {{ form.as_p }}#}
+{#    {% for form in formset.forms %}#}
+{#        {{ form.as_p }}#}
+{#    {% endfor %}#}
+{#    {{ formset.management_form }}#}
+{#    <input type="submit" value="Create">#}
+{#</form>#}
+{#</body>#}
+{#</html>#}

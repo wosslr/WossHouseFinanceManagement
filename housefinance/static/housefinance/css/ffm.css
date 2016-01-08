@@ -81,3 +81,15 @@ body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family: Micro
     background-color: #eee;
     border-radius: 4px;
 }
+
+.red{
+    color: #dd5a43;
+}
+
+.orange{
+    color: #ff892a;
+}
+
+.white{
+    color: #fff;
+}

@@ -2,29 +2,59 @@
 {% block title %}新建记账凭证{% endblock %}
 {% block mycss %}
     {% load staticfiles %}
-    <script src="{% static 'housefinance/js/bootstrap/jquery.min.js' %}"></script>
-    <script src="{% static 'housefinance/js/bootstrap/bootstrap.min.js' %}"></script>
+    {#    <script src="{% static 'housefinance/js/bootstrap/jquery.min.js' %}"></script>#}
+    {#    <script src="{% static 'housefinance/js/bootstrap/bootstrap.min.js' %}"></script>#}
     <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
     {{ form.media }}
+    <script type="text/javascript" src="{% static 'housefinance/js/jquery.formset.js' %}"></script>
 {% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-11">
-            <form method="post">{% csrf_token %}
+            <form id="acc_doc_create_form" method="post">{% csrf_token %}
                 {{ form.as_p }}
-                {% for form in formset.forms %}
-                    {{ form.as_p }}
-                {% endfor %}
-                {{ formset.management_form }}
+                <div>
+                {% with formset.empty_form as empty_form %}
+                    {{ empty_form.as_table }}
+                {% endwith %}
+                    <table>
+                        <thead>
+                        <th>借/贷</th>
+                        <th>金额</th>
+                        <th>科目</th>
+                        <th>备注</th>
+                        </thead>
+                        <tbody>
+                        {% for form in formset.forms %}
+                            <tr class="formset-form-container">
+                                <td>
+                                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                    {{ form.dc_indicator }}
+                                </td>
+                                <td>{{ form.amount }}</td>
+                                <td>{{ form.account }}</td>
+                                <td>{{ form.comment }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        {{ formset.management_form }}
+                    </table>
+                </div>
                 <input type="submit" value="Create">
             </form>
         </div>
     </div>
 {% endblock %}
-{#{% block myjs %}#}
-{#    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>#}
-{#    {{ form.media }}#}
-{#{% endblock %}#}
+{% block myjs %}
+    <script type="text/javascript">
+        $(function () {
+            $('.formset-form-container').formset({
+                addText: '添加一笔',
+                deleteText: '删除'
+            });
+        })
+    </script>
+{% endblock %}
 {#<!DOCTYPE html>#}
 {#<html lang="en">#}
 {#<head>#}

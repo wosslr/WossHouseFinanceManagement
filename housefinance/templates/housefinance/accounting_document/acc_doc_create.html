@@ -14,9 +14,17 @@
             <form id="acc_doc_create_form" method="post">{% csrf_token %}
                 {{ form.as_p }}
                 <div>
-                {% with formset.empty_form as empty_form %}
-                    {{ empty_form.as_table }}
-                {% endwith %}
+                    {% with formset.empty_form as empty_form %}
+                        <table class="empty-form">
+                            <tr id="empty_form_container">
+                                <td>{{ empty_form.dc_indicator }}</td>
+                                <td>{{ empty_form.amount }}</td>
+                                <td>{{ empty_form.account }}</td>
+                                <td>{{ empty_form.comment }}</td>
+                            </tr>
+                        </table>
+{#                        {{ empty_form.as_table }}#}
+                    {% endwith %}
                     <table>
                         <thead>
                         <th>借/贷</th>
@@ -48,7 +56,8 @@
 {% block myjs %}
     <script type="text/javascript">
         $(function () {
-            $('.formset-form-container').formset({
+            $('form div table tbody').formset({
+                formTemplate: '#empty_form_container',
                 addText: '添加一笔',
                 deleteText: '删除'
             });

@@ -18,4 +18,4 @@ AccountingDocumentItemFormSet = inlineformset_factory(model=AccountingDocumentIt
                                                       parent_model=AccountingDocumentHeader,
                                                       form=AccountingDocumentForm,
                                                       fields=['dc_indicator', 'amount', 'account', 'comment'],
-                                                      extra=2)
+                                                      extra=0)

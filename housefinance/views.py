@@ -56,8 +56,10 @@ class AccountingDocumentCreateView(generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super(AccountingDocumentCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
+            context['form'] = AccountingDocumentForm(self.request.POST)
             context['formset'] = AccountingDocumentItemFormSet(self.request.POST)
         else:
+            context['form'] = AccountingDocumentForm()
             context['formset'] = AccountingDocumentItemFormSet()
         # context['formset'] = AccountingDocumentItemFormSet(queryset=AccountingDocumentItem.objects.none())
         return context
@@ -65,15 +67,20 @@ class AccountingDocumentCreateView(generic.CreateView):
     def post(self, request, *args, **kwargs):
         self.object = None
         form = AccountingDocumentForm(request.POST)
-        formset = AccountingDocumentItemFormSet(request.POST)
+        # acc_doc_header = form.save(commit=False)
+        # formset = AccountingDocumentItemFormSet(request.POST)
         if not form.is_valid():
-            return self.render_to_response(context=self.get_context_data(form=form, formset=formset))
+            return self.render_to_response(context=self.get_context_data(
+                    # form=form,
+                    # formset=formset
+            ))
         acc_doc_header = form.save(commit=False)
-        # formset = AccountingDocumentItemFormSet(request.POST, instance=acc_doc_header)
+        formset = AccountingDocumentItemFormSet(request.POST, instance=acc_doc_header)
         # context = {'form': form,
         #            'formset': formset}
         if formset.is_valid():
             acc_doc_items = formset.save(commit=False)
+            print(acc_doc_items)
             if not AccountingDocumentValidation().is_document_consistent(
                     request=request,
                     changed_objects=formset.changed_objects,
@@ -81,7 +88,10 @@ class AccountingDocumentCreateView(generic.CreateView):
                     new_objects=formset.new_objects,
                     acc_doc_header=acc_doc_header
             ):
-                return self.render_to_response(context=self.get_context_data(form=form, formset=formset))
+                return self.render_to_response(context=self.get_context_data(
+                        # form=form,
+                        # formset=formset
+                ))
                 # return render(request, template_name='housefinance/accounting_document/acc_doc_create.html',
                 #               context=context)
             else:
@@ -89,11 +99,13 @@ class AccountingDocumentCreateView(generic.CreateView):
                 formset.instance = self.object
                 acc_doc_items = formset.save(commit=True)
                 messages.success(request=request,
-                                 message='凭证 '+acc_doc_header.__str__()+' 创建成功')
+                                 message='凭证 ' + acc_doc_header.__str__() + ' 创建成功')
                 return HttpResponseRedirect('/ffm/accounting_document')
         else:
             return self.render_to_response(
-                self.get_context_data(form=form, formset=formset)
+                    self.get_context_data(
+                            # form=form, formset=formset
+                    )
             )
 
     @method_decorator(login_required(login_url='/account/login'))
@@ -104,7 +116,7 @@ class AccountingDocumentCreateView(generic.CreateView):
 @login_required(login_url='/account/login')
 def chart_spend(request):
     acc_doc_items = AccountingDocumentItem.objects.filter(account__account_type='FY').order_by(
-        'document_header__creation_date')
+            'document_header__creation_date')
     context = {'acc_doc_items': acc_doc_items}
     return render(request=request, template_name='housefinance/chart_spend.html', context=context)
 

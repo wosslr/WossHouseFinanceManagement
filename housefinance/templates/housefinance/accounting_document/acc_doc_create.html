@@ -11,47 +11,58 @@
 {% block content %}
     <div class="row">
         <div class="col-md-11">
-            <form id="acc_doc_create_form" method="post">{% csrf_token %}
-                {{ form.as_p }}
-                <div>
-                    {% with formset.empty_form as empty_form %}
-                        <table class="empty-form">
-                            <tr id="empty_form_container">
-                                <td>{{ empty_form.dc_indicator }}</td>
-                                <td>{{ empty_form.amount }}</td>
-                                <td>{{ empty_form.account }}</td>
-                                <td>{{ empty_form.comment }}</td>
-                            </tr>
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message.message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-11">
+            <div>
+                <form id="acc_doc_create_form" method="post" class="form-horizontal">{% csrf_token %}
+                    <div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="form-group">
+                        {% with formset.empty_form as empty_form %}
+                            <table class="empty-form">
+                                <tr id="empty_form_container">
+                                    <td>{{ empty_form.dc_indicator }}</td>
+                                    <td>{{ empty_form.amount }}</td>
+                                    <td>{{ empty_form.account }}</td>
+                                    <td>{{ empty_form.comment }}</td>
+                                </tr>
+                            </table>
+                            {#                        {{ empty_form.as_table }}#}
+                        {% endwith %}
+                        <table>
+                            <thead>
+                            <th>借/贷</th>
+                            <th>金额</th>
+                            <th>科目</th>
+                            <th>备注</th>
+                            </thead>
+                            <tbody>
+                            {% for form in formset.forms %}
+                                <tr id="{{ form.prefix }}-row" class="formset-form-container">
+                                    {#                            <tr class="formset-form-container">#}
+                                    <td>
+                                        {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                        {{ form.dc_indicator }}
+                                    </td>
+                                    <td>{{ form.amount }}</td>
+                                    <td>{{ form.account }}</td>
+                                    <td>{{ form.comment }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr></tr>
+                            </tbody>
+                            {{ formset.management_form }}
                         </table>
-{#                        {{ empty_form.as_table }}#}
-                    {% endwith %}
-                    <table>
-                        <thead>
-                        <th>借/贷</th>
-                        <th>金额</th>
-                        <th>科目</th>
-                        <th>备注</th>
-                        </thead>
-                        <tbody>
-                        {% for form in formset.forms %}
-                            <tr id="{{ form.prefix }}-row" class="formset-form-container">
-{#                            <tr class="formset-form-container">#}
-                                <td>
-                                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-                                    {{ form.dc_indicator }}
-                                </td>
-                                <td>{{ form.amount }}</td>
-                                <td>{{ form.account }}</td>
-                                <td>{{ form.comment }}</td>
-                            </tr>
-                        {% endfor %}
-                        <tr></tr>
-                        </tbody>
-                        {{ formset.management_form }}
-                    </table>
-                </div>
-                <input type="submit" value="Create">
-            </form>
+                    </div>
+                    <input type="submit" value="创建" class="btn btn-primary default">
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

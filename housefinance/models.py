@@ -29,7 +29,7 @@ class Account(models.Model):
 
 
 class AccountingDocumentHeader(models.Model):
-    creation_date = models.DateTimeField("Document Date")
+    creation_date = models.DateTimeField("记账日期")
     creator = models.ForeignKey(User)
     comment = models.TextField(blank=True)
 

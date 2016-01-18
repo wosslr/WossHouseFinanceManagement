@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-md-11">
                 <div class="">
-                    <form id="acc_doc_create_form" method="post" class="form-horizontal">{% csrf_token %}
+                    <form id="acc_doc_create_form" method="post" class="form-horizontal" role="form">{% csrf_token %}
                         <fieldset>
                             {% load filters %}
                             <div class="row">
@@ -61,9 +61,9 @@
                                 <table class="empty-form">
                                     <tr id="empty_form_container">
                                         <td>{{ empty_form.dc_indicator | set_class:'form-control form-control-inline' }}</td>
-                                        <td>{{ empty_form.amount | set_class:'form-control form-control-inline' }}</td>
+                                        <td>{{ empty_form.amount | set_class:'form-control form-control-inline' | set_pholder:'金额' }}</td>
                                         <td>{{ empty_form.account | set_class:'form-control form-control-inline' }}</td>
-                                        <td>{{ empty_form.comment | set_class:'form-control form-control-inline' }}</td>
+                                        <td>{{ empty_form.comment | set_class:'form-control form-control-inline' | set_pholder:'备注' }}</td>
                                         <td></td>
                                     </tr>
                                 </table>

@@ -3,12 +3,15 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
+from django.utils import timezone
 
 from .forms import AccountingDocumentForm, AccountingDocumentItemFormSet
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from .validations import AccountingDocumentValidation
-from datetime import datetime
+from datetime import datetime, date
 from .funs import fib
+from .utilities import MyDateUtility
+from .helpers import ChartSpendMonthlyHelper
 
 
 # Create your views here.
@@ -131,3 +134,18 @@ def fibonacci(request, m):
     tm = int(m)
     context = {'fibonacci': fib(tm)}
     return render(request=request, template_name='housefinance/fibonacci.html', context=context)
+
+
+@login_required(login_url='/account/login')
+def chart_spend_monthly(request):
+    print(request.GET)
+    context = {}
+    context['periods'] = ChartSpendMonthlyHelper.get_periods()
+    acc_doc_items = AccountingDocumentItem.objects.filter(
+            account__account_type='FY',
+            document_header__creation_date__range=[MyDateUtility.get_first_day_of_month(timezone.now()),
+                                                   MyDateUtility.get_last_day_of_month(timezone.now())]
+    ).order_by(
+            'document_header__creation_date')
+    print(acc_doc_items)
+    return render(request=request, template_name='housefinance/charts/monthly_spend_chart.html', context=context)

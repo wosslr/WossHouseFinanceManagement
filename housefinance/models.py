@@ -30,8 +30,8 @@ class Account(models.Model):
 
 class AccountingDocumentHeader(models.Model):
     creation_date = models.DateTimeField("记账日期")
-    creator = models.ForeignKey(User)
-    comment = models.TextField(blank=True)
+    creator = models.ForeignKey(User, verbose_name='创建人')
+    comment = models.TextField(blank=True, verbose_name='备注')
 
     def __str__(self):
         return self.creation_date.date().__str__() + ' ' + self.id.__str__() + ' ' + self.comment

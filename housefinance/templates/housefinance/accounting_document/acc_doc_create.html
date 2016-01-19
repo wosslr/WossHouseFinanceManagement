@@ -25,35 +25,30 @@
                 <div class="">
                     <form id="acc_doc_create_form" method="post" class="form-horizontal" role="form">{% csrf_token %}
                         <fieldset>
+                            <legend>记账凭证</legend>
                             {% load filters %}
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="control-label col-sm-2">{{ form.creation_date.label_tag }}</div>
-                                    <div class="controls col-sm-8">
-                                        {{ form.creation_date | set_class:'form-control form-control-inline' }}
-                                    </div>
-                                    <span class="text-danger">{{ form.creation_date.errors }}</span>
+                            <div class="form-group">
+                                <div class="control-label col-sm-2">{{ form.creation_date.label_tag }}</div>
+                                <div class="controls col-sm-8">
+                                    {{ form.creation_date | set_class:'form-control form-control-inline' }}
                                 </div>
+                                <span class="text-danger">{{ form.creation_date.errors }}</span>
                             </div>
 
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="control-label col-sm-2">{{ form.creator.label_tag }}</div>
-                                    <div class="controls col-sm-8">
-                                        {{ form.creator | set_class:'form-control form-control-inline' }}
-                                    </div>
-                                    <span class="text-danger">{{ form.creator.errors }}</span>
+                            <div class="form-group">
+                                <div class="control-label col-sm-2">{{ form.creator.label_tag }}</div>
+                                <div class="controls col-sm-8">
+                                    {{ form.creator | set_class:'form-control form-control-inline' }}
                                 </div>
+                                <span class="text-danger">{{ form.creator.errors }}</span>
                             </div>
 
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="control-label col-sm-2">{{ form.comment.label_tag }}</div>
-                                    <div class="controls col-sm-8">
-                                        {{ form.comment | set_class:'form-control form-control-inline' }}
-                                    </div>
-                                    <span class="text-danger">{{ form.comment.errors }}</span>
+                            <div class="form-group">
+                                <div class="control-label col-sm-2">{{ form.comment.label_tag }}</div>
+                                <div class="controls col-sm-8">
+                                    {{ form.comment | set_class:'form-control form-control-inline' }}
                                 </div>
+                                <span class="text-danger">{{ form.comment.errors }}</span>
                             </div>
                         </fieldset>
                         <div class="form-group">
@@ -69,31 +64,33 @@
                                 </table>
                                 {#                        {{ empty_form.as_table }}#}
                             {% endwith %}
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <th>借/贷</th>
-                                <th>金额</th>
-                                <th>科目</th>
-                                <th>备注</th>
-                                <th>删除 ?</th>
-                                </thead>
-                                <tbody>
-                                {% for form in formset.forms %}
-                                    <tr id="{{ form.prefix }}-row" class="formset-form-container">
-                                        {#                            <tr class="formset-form-container">#}
-                                        <td>
-                                            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-                                            {{ form.dc_indicator }}
-                                        </td>
-                                        <td>{{ form.amount }}</td>
-                                        <td>{{ form.account }}</td>
-                                        <td>{{ form.comment }}</td>
-                                    </tr>
-                                {% endfor %}
-                                <tr></tr>
-                                </tbody>
-                                {{ formset.management_form }}
-                            </table>
+                            <div class="container">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                    <th>借/贷</th>
+                                    <th>金额</th>
+                                    <th>科目</th>
+                                    <th>备注</th>
+                                    <th>删除 ?</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for form in formset.forms %}
+                                        <tr id="{{ form.prefix }}-row" class="formset-form-container">
+                                            {#                            <tr class="formset-form-container">#}
+                                            <td>
+                                                {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                                {{ form.dc_indicator }}
+                                            </td>
+                                            <td>{{ form.amount }}</td>
+                                            <td>{{ form.account }}</td>
+                                            <td>{{ form.comment }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr></tr>
+                                    </tbody>
+                                    {{ formset.management_form }}
+                                </table>
+                            </div>
                         </div>
                         <input type="submit" value="创建" class="btn btn-primary default">
                     </form>

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import AccountingDocumentForm, AccountingDocumentItemFormSet
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from .validations import AccountingDocumentValidation
+from datetime import datetime
 from .funs import fib
 
 
@@ -59,7 +60,11 @@ class AccountingDocumentCreateView(generic.CreateView):
             context['form'] = AccountingDocumentForm(self.request.POST)
             context['formset'] = AccountingDocumentItemFormSet(self.request.POST)
         else:
-            context['form'] = AccountingDocumentForm()
+            print('{0:%Y/%m/%d %H:%M}'.format(datetime.now()))
+            context['form'] = AccountingDocumentForm(initial={
+                'creation_date': '{0:%Y/%m/%d %H:%M}'.format(datetime.now()),
+                'creator': self.request.user
+            })
             context['formset'] = AccountingDocumentItemFormSet()
         # context['formset'] = AccountingDocumentItemFormSet(queryset=AccountingDocumentItem.objects.none())
         return context

@@ -41,9 +41,9 @@
 {#                                            '{{ acc_doc_item.document_header.creation_date.second }}'#}
 {#                                    ),#}
                                     x: {{ forloop.counter }},
-                                    toolTipContent: "{{ acc_doc_item.document_header.comment }} : <strong>{y}</strong>",
+                                    toolTipContent: "{{ acc_doc_item.comment }} : <strong>{y}</strong>",
                                     y: {{acc_doc_item.amount}},
-                                    label: "{{ acc_doc_item.document_header.comment }}"
+                                    label: "{{ acc_doc_item.comment }}"
                                 },
                             {% endfor %}
 

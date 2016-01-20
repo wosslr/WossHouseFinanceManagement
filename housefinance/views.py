@@ -125,6 +125,13 @@ class AccountingDocumentCreateView(generic.CreateView):
 def chart_spend(request):
     acc_doc_items = AccountingDocumentItem.objects.filter(account__account_type='FY').order_by(
             'document_header__creation_date')
+    for acc_doc_item in acc_doc_items:
+        if not acc_doc_item.comment:
+            if not acc_doc_item.document_header.comment:
+                acc_doc_item.comment = acc_doc_item.account.account_name
+            else:
+                acc_doc_item.comment = acc_doc_item.document_header.comment
+
     context = {'acc_doc_items': acc_doc_items}
     return render(request=request, template_name='housefinance/chart_spend.html', context=context)
 
@@ -139,13 +146,7 @@ def fibonacci(request, m):
 @login_required(login_url='/account/login')
 def chart_spend_monthly(request):
     print(request.GET)
-    context = {}
+    context = dict()
     context['periods'] = ChartSpendMonthlyHelper.get_periods()
-    acc_doc_items = AccountingDocumentItem.objects.filter(
-            account__account_type='FY',
-            document_header__creation_date__range=[MyDateUtility.get_first_day_of_month(timezone.now()),
-                                                   MyDateUtility.get_last_day_of_month(timezone.now())]
-    ).order_by(
-            'document_header__creation_date')
-    print(acc_doc_items)
+    context['chart_data_set'] = ChartSpendMonthlyHelper.get_spend_data_by_month(2016, 1)
     return render(request=request, template_name='housefinance/charts/monthly_spend_chart.html', context=context)

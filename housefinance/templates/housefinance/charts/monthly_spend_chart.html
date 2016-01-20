@@ -26,7 +26,7 @@
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: 'ECharts 入门示例'
+                text: '月消费统计'
             },
             tooltip: {},
             legend: {
@@ -43,44 +43,28 @@
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                {#                data: [#}
-                {#                    new Date(2016, 01, 01),#}
-                {#                    new Date(2016, 01, 02),#}
-                {#                    new Date(2016, 01, 03),#}
-                {#                    new Date(2016, 01, 04),#}
-                {#                    new Date(2016, 01, 05),#}
-                {#                    new Date(2016, 01, 06)#}
-                {#                ]#}
                 data: [
-                    '2016-01-01',
-                    '2016-01-02',
-                    '2016-01-03',
-                    '2016-01-04',
-                    '2016-01-05',
-                    '2016-01-06',
+                    {% for chart_data in chart_data_set %}
+                        '{{ chart_data.date.year }}-{{ chart_data.date.month }}-{{ chart_data.date.day }}',
+                    {% endfor %}
                 ]
             },
             yAxis: {},
             series: [{
-                name: '销量',
+                name: '消费',
                 type: 'line',
                 smooth: true,
                 stack: 'a',
                 areaStyle: {
                     normal: {}
                 },
-                data: [5, 20, 36, 10, 10, 20]
-            },
-                {
-                    name: 'test',
-                    type: 'line',
-                    smooth: true,
-                    stack: 'b',
-                    areaStyle: {
-                        normal: {}
-                    },
-                    data: [5, 34, 23, 65, 45, 34]
-                }]
+                data: [
+                    {% for chart_data in chart_data_set %}
+                        {{ chart_data.amount }},
+                    {% endfor %}
+
+                ]
+            }]
         };
 
         // 使用刚指定的配置项和数据显示图表。

@@ -3,14 +3,12 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from django.utils import timezone
 
 from .forms import AccountingDocumentForm, AccountingDocumentItemFormSet
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from .validations import AccountingDocumentValidation
 from datetime import datetime, date
 from .funs import fib
-from .utilities import MyDateUtility
 from .helpers import ChartSpendMonthlyHelper
 
 
@@ -63,7 +61,6 @@ class AccountingDocumentCreateView(generic.CreateView):
             context['form'] = AccountingDocumentForm(self.request.POST)
             context['formset'] = AccountingDocumentItemFormSet(self.request.POST)
         else:
-            print('{0:%Y/%m/%d %H:%M}'.format(datetime.now()))
             context['form'] = AccountingDocumentForm(initial={
                 'creation_date': '{0:%Y/%m/%d %H:%M}'.format(datetime.now()),
                 'creator': self.request.user
@@ -88,7 +85,6 @@ class AccountingDocumentCreateView(generic.CreateView):
         #            'formset': formset}
         if formset.is_valid():
             acc_doc_items = formset.save(commit=False)
-            print(acc_doc_items)
             if not AccountingDocumentValidation().is_document_consistent(
                     request=request,
                     changed_objects=formset.changed_objects,

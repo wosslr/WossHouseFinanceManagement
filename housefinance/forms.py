@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from django.forms.models import inlineformset_factory, BaseInlineFormSet
 from datetimewidget.widgets import DateTimeWidget

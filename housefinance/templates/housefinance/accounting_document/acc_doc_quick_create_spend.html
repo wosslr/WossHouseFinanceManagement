@@ -3,7 +3,8 @@
 {% block mycss %}
     {% load staticfiles %}
     <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
-    {{ form.media }}
+    <link rel="stylesheet" type="text/css" href="{% static 'datetimewidget/css/datetimepicker.css' %}" media="all">
+    <script type="text/javascript" src="{% static 'datetimewidget/js/bootstrap-datetimepicker.js' %}"></script>
     <script type="text/javascript" src="{% static 'housefinance/js/jquery.formset.js' %}"></script>
 {% endblock %}
 {% block content %}

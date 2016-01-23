@@ -1,3 +1,4 @@
+#encoding:utf-8
 from django.shortcuts import render, render_to_response
 from django import forms
 from django.http import HttpResponseRedirect
@@ -5,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.template.context_processors import csrf
 
+from housefinance.constants import LOGIN_URL
 
 # Create your views here.
 class UserForm(forms.Form):
@@ -31,9 +33,9 @@ def login(request):
                     django_login(request, user)
                     return HttpResponseRedirect(redirect_to)
                 else:
-                    return HttpResponseRedirect('/account/login'+next_parameter)
+                    return HttpResponseRedirect(LOGIN_URL+next_parameter)
             else:
-                return HttpResponseRedirect('/account/login'+next_parameter)
+                return HttpResponseRedirect(LOGIN_URL+next_parameter)
     else:
         uf = UserForm()
     context = {'uf': uf}
@@ -44,4 +46,4 @@ def login(request):
 
 def logout(request):
     django_logout(request)
-    return HttpResponseRedirect('/account/login')
+    return HttpResponseRedirect(LOGIN_URL)

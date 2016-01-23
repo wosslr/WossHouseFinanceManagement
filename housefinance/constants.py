@@ -6,3 +6,5 @@ dateTimeOptions = {
     'todayHighlight': 'true',
     'minuteStep': 10
 }
+
+LOGIN_URL = '/account/login/'

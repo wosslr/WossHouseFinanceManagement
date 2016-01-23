@@ -7,9 +7,10 @@ from django.contrib import messages
 from .forms import AccountingDocumentForm, AccountingDocumentItemFormSet
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from .validations import AccountingDocumentValidation
-from datetime import datetime, date
+from datetime import datetime
 from .funs import fib
 from .helpers import ChartSpendMonthlyHelper
+from .constants import LOGIN_URL
 
 
 # Create your views here.
@@ -22,7 +23,7 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return AccountingDocumentHeader.objects.order_by('-creation_date')
 
-    @method_decorator(login_required(login_url='/account/login'))
+    @method_decorator(login_required(login_url=LOGIN_URL))
     def dispatch(self, request, *args, **kwargs):
         return super(IndexView, self).dispatch(request, *args, **kwargs)
 
@@ -34,7 +35,7 @@ class AccountingDocumentIndexView(generic.ListView):
     def get_queryset(self):
         return AccountingDocumentHeader.objects.order_by('-creation_date')
 
-    @method_decorator(login_required(login_url='/account/login'))
+    @method_decorator(login_required(login_url=LOGIN_URL))
     def dispatch(self, request, *args, **kwargs):
         return super(AccountingDocumentIndexView, self).dispatch(request, *args, **kwargs)
 
@@ -44,7 +45,7 @@ class AccountingDocumentDetailView(generic.DetailView):
     context_object_name = 'account_doc'
     template_name = 'housefinance/accounting_document/detail.html'
 
-    @method_decorator(login_required(login_url='/account/login'))
+    @method_decorator(login_required(login_url=LOGIN_URL))
     def dispatch(self, request, *args, **kwargs):
         return super(AccountingDocumentDetailView, self).dispatch(request, *args, **kwargs)
 
@@ -112,12 +113,12 @@ class AccountingDocumentCreateView(generic.CreateView):
                     )
             )
 
-    @method_decorator(login_required(login_url='/account/login'))
+    @method_decorator(login_required(login_url=LOGIN_URL))
     def dispatch(self, request, *args, **kwargs):
         return super(AccountingDocumentCreateView, self).dispatch(request, *args, **kwargs)
 
 
-@login_required(login_url='/account/login')
+@login_required(login_url=LOGIN_URL)
 def chart_spend(request):
     acc_doc_items = AccountingDocumentItem.objects.filter(account__account_type='FY').order_by(
             'document_header__creation_date')
@@ -132,14 +133,14 @@ def chart_spend(request):
     return render(request=request, template_name='housefinance/chart_spend.html', context=context)
 
 
-@login_required(login_url='/account/login')
+@login_required(login_url=LOGIN_URL)
 def fibonacci(request, m):
     tm = int(m)
     context = {'fibonacci': fib(tm)}
     return render(request=request, template_name='housefinance/fibonacci.html', context=context)
 
 
-@login_required(login_url='/account/login')
+@login_required(login_url=LOGIN_URL)
 def chart_spend_monthly(request):
     print(request.GET)
     context = dict()

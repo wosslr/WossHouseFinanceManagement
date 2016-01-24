@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'datetimewidget',
     'housefinance',
     'account',
+    'wechat',
 )
 
 MIDDLEWARE_CLASSES = (

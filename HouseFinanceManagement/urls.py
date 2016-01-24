@@ -19,5 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^ffm/', include('housefinance.urls', namespace='ffm')),
     url(r'^account/', include('account.urls', namespace='account')),
+    url(r'^wechat/', include('wechat.urls', namespace='wechat')),
     url(r'^admin/', include(admin.site.urls)),
 ]

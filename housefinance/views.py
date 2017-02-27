@@ -1,9 +1,12 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 from django.utils.decorators import method_decorator
 from django.contrib import messages
+from rest_framework import viewsets
 
+from housefinance.serializers import UserSerializer, GroupSerializer
 from .forms import AccountingDocumentForm, AccountingDocumentItemFormSet
 from .models import AccountingDocumentHeader, AccountingDocumentItem
 from .validations import AccountingDocumentValidation
@@ -147,3 +150,18 @@ def chart_spend_monthly(request):
     context['periods'] = ChartSpendMonthlyHelper.get_periods()
     context['chart_data_set'] = ChartSpendMonthlyHelper.get_spend_data_by_month(2016, 1)
     return render(request=request, template_name='housefinance/charts/monthly_spend_chart.html', context=context)
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

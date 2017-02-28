@@ -17,15 +17,19 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework import routers
 from housefinance import views
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'accounts', views.AccountViewSet)
 
 urlpatterns = [
+    url(r'^restapi/', include(router.urls)),
     url(r'^ffm/', include('housefinance.urls', namespace='ffm')),
     url(r'^account/', include('account.urls', namespace='account')),
     url(r'^wechat/', include('wechat.urls', namespace='wechat')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api-token-auth/', obtain_auth_token),
 ]

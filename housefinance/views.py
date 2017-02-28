@@ -6,9 +6,11 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from rest_framework import viewsets
 
-from housefinance.serializers import UserSerializer, GroupSerializer
+from rest_framework.response import Response
+
+from housefinance.serializers import UserSerializer, GroupSerializer, AccountSerializer
 from .forms import AccountingDocumentForm, AccountingDocumentItemFormSet
-from .models import AccountingDocumentHeader, AccountingDocumentItem
+from .models import AccountingDocumentHeader, AccountingDocumentItem, Account
 from .validations import AccountingDocumentValidation
 from datetime import datetime
 from .funs import fib
@@ -80,8 +82,8 @@ class AccountingDocumentCreateView(generic.CreateView):
         # formset = AccountingDocumentItemFormSet(request.POST)
         if not form.is_valid():
             return self.render_to_response(context=self.get_context_data(
-                    # form=form,
-                    # formset=formset
+                # form=form,
+                # formset=formset
             ))
         acc_doc_header = form.save(commit=False)
         formset = AccountingDocumentItemFormSet(request.POST, instance=acc_doc_header)
@@ -97,8 +99,8 @@ class AccountingDocumentCreateView(generic.CreateView):
                     acc_doc_header=acc_doc_header
             ):
                 return self.render_to_response(context=self.get_context_data(
-                        # form=form,
-                        # formset=formset
+                    # form=form,
+                    # formset=formset
                 ))
                 # return render(request, template_name='housefinance/accounting_document/acc_doc_create.html',
                 #               context=context)
@@ -111,9 +113,9 @@ class AccountingDocumentCreateView(generic.CreateView):
                 return HttpResponseRedirect('/ffm/accounting_document')
         else:
             return self.render_to_response(
-                    self.get_context_data(
-                            # form=form, formset=formset
-                    )
+                self.get_context_data(
+                    # form=form, formset=formset
+                )
             )
 
     @method_decorator(login_required(login_url=LOGIN_URL))
@@ -124,7 +126,7 @@ class AccountingDocumentCreateView(generic.CreateView):
 @login_required(login_url=LOGIN_URL)
 def chart_spend(request):
     acc_doc_items = AccountingDocumentItem.objects.filter(account__account_type='FY').order_by(
-            'document_header__creation_date')
+        'document_header__creation_date')
     for acc_doc_item in acc_doc_items:
         if not acc_doc_item.comment:
             if not acc_doc_item.document_header.comment:
@@ -151,17 +153,22 @@ def chart_spend_monthly(request):
     context['chart_data_set'] = ChartSpendMonthlyHelper.get_spend_data_by_month(2016, 1)
     return render(request=request, template_name='housefinance/charts/monthly_spend_chart.html', context=context)
 
+
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
+    def retrieve(self, request, pk=None):
+        if pk == 'i':
+            return Response(UserSerializer(request.user, context={'request':request}).data)
+        return super(UserViewSet, self).retrieve(request, pk)
+
 
 class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+
+class AccountViewSet(viewsets.ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer

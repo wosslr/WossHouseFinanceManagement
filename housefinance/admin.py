@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Account, AccountingDocumentHeader, AccountingDocumentItem
+from .models import Member, Account, AccountingDocumentHeader, AccountingDocumentItem
 from decimal import Decimal
 from .validations import AccountingDocumentValidation
 from django.contrib import messages
@@ -44,5 +44,5 @@ class AccountingDocumentAdmin(admin.ModelAdmin):
         return form.save(commit=False)
 
 admin.site.register(AccountingDocumentHeader, AccountingDocumentAdmin)
-admin.site.register(User)
+admin.site.register(Member)
 admin.site.register(Account)

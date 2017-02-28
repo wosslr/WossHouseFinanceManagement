@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block myjs %}
-    {#    <script src="{% static 'housefinance/js/echarts/echarts.min.js' %}"></script>#}
+    {#    <script src="{% static_vue 'housefinance/js/echarts/echarts.min.js' %}"></script>#}
     <script type="text/javascript">
         var myChart = echarts.init(document.getElementById('chartContainer'));
         // 指定图表的配置项和数据

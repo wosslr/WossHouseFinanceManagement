@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from .models import Account, AccountingDocumentHeader, AccountingDocumentItem
+from .models import Account, AccountingDocumentHeader, AccountingDocumentItem, Family, Member
 from rest_framework import serializers
 
 
@@ -18,7 +18,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Account
-        fields = ('account_name', 'account_type', 'account_balance')
+        fields = ('name', 'type', 'balance', 'creator')
 
 
 class AccountingDocumentHeaderSerializer(serializers.HyperlinkedModelSerializer):
@@ -31,3 +31,11 @@ class AccountingDocumentItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AccountingDocumentItem
         fields = ('dc_indicator', 'amount', 'document_header', 'account', 'comment')
+
+
+class FamilySerializer(serializers.HyperlinkedModelSerializer):
+    members = serializers.PrimaryKeyRelatedField(many=True, queryset=Member.objects.all())
+
+    class Meta:
+        model = Family
+        fields = ('name',)

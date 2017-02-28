@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 import hashlib
 
-from .helpers import WechatMessage
+from .helpers import WechatMessage, AccountingDocumentUtility
 # Create your views here.
 
 
@@ -29,8 +29,9 @@ class IndexView(View):
         return HttpResponse('signature check failed')
 
     def post(self, request, *args, **kwargs):
-        WechatMessage().parse_message(request.body)
-        return HttpResponse('success')
+        wechat = WechatMessage(request.body)
+        reply_msg = AccountingDocumentUtility.create_acc_doc_by_msg(p_message=wechat.msg_content, p_userid=wechat.sender)
+        return HttpResponse(wechat.reply(reply_msg))
 
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):

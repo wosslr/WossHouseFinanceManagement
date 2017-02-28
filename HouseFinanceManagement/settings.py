@@ -15,7 +15,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -27,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-# STATIC_ROOT = '/static/'
+# STATIC_ROOT = '/static_vue/'
 
 # Application definition
 
@@ -56,13 +55,18 @@ INSTALLED_APPS = (
     'datetimewidget',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'housefinance',
     'account',
     'wechat',
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
     'PAGE_SIZE': 10
 }
@@ -100,7 +104,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HouseFinanceManagement.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -117,7 +120,7 @@ DATABASES = {
         'NAME': 'ffm',
         'USER': 'ffm',
         'PASSWORD': '654321',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     },
     'sqlite3': {
@@ -125,7 +128,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -143,4 +145,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static_vue/'

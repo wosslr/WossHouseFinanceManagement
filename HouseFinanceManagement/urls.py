@@ -27,10 +27,10 @@ router.register(r'accounts', views.AccountViewSet)
 
 urlpatterns = [
     url(r'^restapi/', include(router.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^ffm/', include('housefinance.urls', namespace='ffm')),
     url(r'^account/', include('account.urls', namespace='account')),
-    url(r'^', include('account.urls', namespace='account')),
     url(r'^wechat/', include('wechat.urls', namespace='wechat')),
-    url(r'^admin/', include(admin.site.urls)),
+    # url(r'^', include('account.urls', namespace='account')),
     # url(r'^api-token-auth/', obtain_auth_token),
 ]
